@@ -5,27 +5,37 @@ const http = require('http').createServer(app);
 const manager = new NlpManager();
 const io=require('socket.io')(http);
 const mongoose = require('mongoose');
+// const messageHandler = require('./messageHandle');
 
-mongoose.connect('mongodb://localhost:27017' ,{
-    useNewurlparser:true,
-    useUnifiedTopology:true,
+// // Use the saveMessage function from messageHandler.js
+// messageHandle.saveMessage(senderId, messageContent)
+//   .then(savedMessage => {
+//     // Handle the saved message or perform further operations
+//   })
+//   .catch(error => {
+//     // Handle the error
+//   });
 
-});
-const userProfileSchema = new mongoose.Schema({
-    
+const { User, Conversation } = require('./mongodb'); // Import your schema file here
+
+// Connect to MongoDB
+mongoose.connect('mongodb://127.0.0.1/chatbot', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
+  .then(() => {
+    console.log('Connected to MongoDB');
+    // Start the server after successful MongoDB connection
+    app.listen(3000, () => {
+      console.log(`Server is running on port `);
+    });
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
 app.use(express.static(__dirname+"/public"));
 app.get("/",(req,res)=>{
     res.sendFile(__dirname+'/public/index.html')
 
-})
-
-http.listen(process.env.PORT || 3000,()=>{
-
-    console.log("Port is connected");
-})
-
-io.on('connection',(socket)=>{
-    console.log("connected...");
-})
+});
