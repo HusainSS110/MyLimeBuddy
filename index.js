@@ -16,7 +16,7 @@ const mongoose = require('mongoose');
 //     // Handle the error
 //   });
 
-const { User, Conversation } = require('./mongodb'); // Import your schema file here
+//const { User, Conversation } = require('./mongodb'); // Import your schema file here
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1/chatbot', {
@@ -26,9 +26,7 @@ mongoose.connect('mongodb://127.0.0.1/chatbot', {
   .then(() => {
     console.log('Connected to MongoDB');
     // Start the server after successful MongoDB connection
-    app.listen(3000, () => {
-      console.log(`Server is running on port `);
-    });
+    
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error);
@@ -39,3 +37,6 @@ app.get("/",(req,res)=>{
     res.sendFile(__dirname+'/public/index.html')
 
 });
+app.listen(3000, () => {
+    console.log(`Server is running on port `);
+  });
